@@ -3,81 +3,209 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TunePort - Playlist Transfer</title>
+    <title>TunedIn - Playlist Transfer</title>
     <style>
-    
         body {
-            font-family: 'Segoe UI', system-ui, sans-serif;
-            background-color: #f3f4f6;
-            color: #1f2937;
+            font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #020617 100%);
+            color: #f8fafc;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
             min-height: 100vh;
             margin: 0;
-        }
-        .card {
-            background: white;
-            padding: 3rem 2rem;
-            border-radius: 16px;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 400px;
-            text-align: center;
-        }
-        h1 {
-            margin-top: 0;
-            font-size: 1.8rem;
-            color: #111827;
-        }
-        p {
-            color: #6b7280;
-            margin-bottom: 2rem;
-        }
-        .btn {
-            display: block;
-            width: 100%;
-            padding: 0.875rem;
-            margin: 1rem 0;
-            border: none;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: 600;
-            text-decoration: none;
-            cursor: pointer;
-            transition: transform 0.1s, opacity 0.2s;
+            padding: 2rem;
             box-sizing: border-box;
         }
-        .btn:active {
-            transform: scale(0.98);
+        .container {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 2.5rem;
+            border-radius: 16px;
+            width: 100%;
+            max-width: 600px;
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.5), 0 8px 10px -6px rgba(0,0,0,0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
-        .btn:hover {
-            opacity: 0.9;
+        h1 { 
+            text-align: center; 
+            margin-top: 0; 
+            margin-bottom: 0.5rem;
+            font-size: 2.5rem; 
+            letter-spacing: -0.025em; 
+            background: -webkit-linear-gradient(#ffffff, #94a3b8); 
+            -webkit-background-clip: text; 
+            -webkit-text-fill-color: transparent; 
         }
-        .btn-spotify {
-            background-color: #1DB954;
-            color: white;
+        .subtitle {
+            text-align: center;
+            color: #94a3b8;
+            margin-bottom: 2rem;
+            font-size: 1rem;
         }
-        .btn-youtube {
-            background-color: #FF0000;
-            color: white;
+        .auth-buttons { display: flex; gap: 1rem; margin-bottom: 2rem; }
+        .btn {
+            flex: 1; padding: 1rem; border: none; border-radius: 10px;
+            font-weight: 600; cursor: pointer; text-align: center; text-decoration: none;
+            color: white; transition: all 0.2s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
+        .btn:hover { 
+            transform: translateY(-2px); 
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2); 
+            filter: brightness(1.1);
+        }
+        .btn:active { transform: translateY(0); }
+        .btn-spotify { background-color: #1DB954; }
+        .btn-youtube { background-color: #FF0000; }
+        .btn-action { 
+            background-color: #3b82f6; 
+            width: 100%; 
+            margin-top: 0.5rem; 
+            padding: 1rem; 
+            font-size: 1.1rem; 
+        }
+        .btn-action:hover { background-color: #2563eb; }
+        
+        .dashboard { display: none; }
+        h3 { color: #e2e8f0; font-size: 1.1rem; margin-bottom: 0.75rem; margin-top: 1.5rem; }
+        .playlist-item {
+            background: rgba(15, 23, 42, 0.6); padding: 1rem 1.5rem; border-radius: 10px;
+            margin-bottom: 0.75rem; display: flex; justify-content: space-between; align-items: center;
+            border: 1px solid rgba(255, 255, 255, 0.05); transition: background 0.2s;
+        }
+        .playlist-item:hover { background: rgba(15, 23, 42, 0.9); }
+        select {
+            width: 100%; padding: 1rem; margin-bottom: 1rem;
+            background: rgba(15, 23, 42, 0.6); color: white; border: 1px solid rgba(255, 255, 255, 0.1); 
+            border-radius: 10px; font-size: 1rem; outline: none; cursor: pointer;
+        }
+        select:focus { border-color: #3b82f6; }
+        #statusMessage { text-align: center; margin-top: 1.5rem; font-weight: 500; min-height: 1.5rem;}
+        
+        #playlistContainer { max-height: 300px; overflow-y: auto; padding-right: 0.5rem; }
+        #playlistContainer::-webkit-scrollbar { width: 6px; }
+        #playlistContainer::-webkit-scrollbar-track { background: rgba(0,0,0,0.1); border-radius: 10px; }
+        #playlistContainer::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 10px; }
     </style>
 </head>
 <body>
 
-    <div class="card">
-        <h1>TunePort</h1>
-        <p>Connect your accounts to transfer playlists.</p>
-
-        <a href="https://tunedin-1bno.onrender.com/auth/spotify" class="btn btn-spotify">
-            Connect Spotify
-        </a>
+    <div class="container">
+        <h1>TunedIn</h1>
+        <div class="subtitle">Seamlessly transfer your playlists across platforms.</div>
         
-        <a href="https://tunedin-1bno.onrender.com/auth/google" class="btn btn-youtube">
-            Connect YouTube Music
-        </a>
+        <div class="auth-buttons" id="authSection">
+            <a href="https://tunedin-1bno.onrender.com/auth/spotify" class="btn btn-spotify">Connect Spotify</a>
+            <a href="https://tunedin-1bno.onrender.com/auth/google" class="btn btn-youtube">Connect YouTube</a>
+        </div>
+
+        <div class="dashboard" id="dashboardSection">
+            <h3>1. Select Source Platform</h3>
+            <select id="sourcePlatform">
+                <option value="spotify">Spotify</option>
+                <option value="youtube">YouTube Music</option>
+            </select>
+
+            <button class="btn btn-action" onclick="fetchPlaylists()">Load My Playlists</button>
+
+            <div id="playlistContainer" style="margin-top: 1.5rem;"></div>
+
+            <h3 style="margin-top: 2rem;">2. Destination Platform</h3>
+            <select id="targetPlatform">
+                <option value="youtube">YouTube Music</option>
+                <option value="spotify">Spotify</option>
+            </select>
+
+            <button class="btn btn-action" style="background: linear-gradient(to right, #8b5cf6, #6366f1);" onclick="startTransfer()">Start Transfer!</button>
+            <div id="statusMessage"></div>
+        </div>
     </div>
 
+    <script>
+        const BACKEND_URL = "https://tunedin-1bno.onrender.com"; 
+        
+        document.querySelector('.btn-spotify').href = `${BACKEND_URL}/auth/spotify`;
+        document.querySelector('.btn-youtube').href = `${BACKEND_URL}/auth/google`;
+
+        let selectedPlaylistId = null;
+
+        window.onload = () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            if(urlParams.get('logged_in') === 'true' || document.cookie.includes('connect.sid')) {
+                document.getElementById('dashboardSection').style.display = 'block';
+            } else {
+                document.getElementById('dashboardSection').style.display = 'block'; 
+            }
+        }
+
+        async function fetchPlaylists() {
+            const platform = document.getElementById('sourcePlatform').value;
+            const container = document.getElementById('playlistContainer');
+            const status = document.getElementById('statusMessage');
+            
+            container.innerHTML = `<div style="text-align: center; color: #94a3b8; padding: 1rem;">Loading playlists...</div>`;
+            status.innerText = "";
+
+            try {
+                const response = await fetch(`${BACKEND_URL}/api/playlists?platform=${platform}`);
+                const playlists = await response.json();
+                
+                container.innerHTML = "";
+                playlists.forEach(pl => {
+                    const div = document.createElement('div');
+                    div.className = 'playlist-item';
+                    div.innerHTML = `
+                        <span>${pl.name} <span style="color: #94a3b8; font-size: 0.9em;">(${pl.totalTracks} tracks)</span></span>
+                        <input type="radio" name="selectedPlaylist" value="${pl.id}" style="accent-color: #3b82f6; transform: scale(1.2);" onclick="selectedPlaylistId = '${pl.id}'">
+                    `;
+                    container.appendChild(div);
+                });
+            } catch (err) {
+                container.innerHTML = `<div style="text-align: center; color: #f87171; padding: 1rem;">Error loading playlists. Are you logged in?</div>`;
+                console.error(err);
+            }
+        }
+
+        async function startTransfer() {
+            if (!selectedPlaylistId) {
+                alert("Please load and select a playlist first!");
+                return;
+            }
+
+            const source = document.getElementById('sourcePlatform').value;
+            const target = document.getElementById('targetPlatform').value;
+            const status = document.getElementById('statusMessage');
+
+            if (source === target) {
+                alert("Source and Destination cannot be the same!");
+                return;
+            }
+
+            status.style.color = "#60a5fa";
+            status.innerText = "Transferring... This might take a minute ⏳";
+
+            try {
+                const response = await fetch(`${BACKEND_URL}/api/transfer`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        sourcePlatform: source,
+                        targetPlatform: target,
+                        playlistId: selectedPlaylistId
+                    })
+                });
+                
+                const result = await response.json();
+                status.style.color = "#34d399";
+                status.innerText = "✅ Transfer Complete! Check your app.";
+            } catch (err) {
+                status.style.color = "#f87171";
+                status.innerText = "❌ Transfer failed. Check console for details.";
+                console.error(err);
+            }
+        }
+    </script>
 </body>
 </html>
