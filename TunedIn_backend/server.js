@@ -445,9 +445,7 @@ app.post('/api/transfer', async (req, res) => {
     } catch (err) {
       let apiErrorDetail = '';
       if (err.response && err.response.data) {
-        // Try to parse standard Google/Spotify error format
-        const errorData = err.response.data;
-        apiErrorDetail = errorData.error?.message || JSON.stringify(errorData);
+        apiErrorDetail = JSON.stringify(err.response.data);
       }
       const finalErrorMessage = apiErrorDetail ? `${err.message} - API Error: ${apiErrorDetail}` : err.message;
       
