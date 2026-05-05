@@ -401,11 +401,16 @@ app.post('/api/transfer', async (req, res) => {
         // to === 'youtube'
         const token = await getYouTubeToken(req);
 
+        // Sanitize playlist name for YouTube (no angle brackets, max 150 chars)
+        let safeTitle = playlistName ? playlistName.toString() : 'Imported Playlist';
+        safeTitle = safeTitle.replace(/[<>\n\r]/g, '').trim().substring(0, 100);
+        if (!safeTitle) safeTitle = 'Imported Playlist';
+
         // Create playlist on YouTube
         const createRes = await axios.post(
           'https://www.googleapis.com/youtube/v3/playlists?part=snippet,status',
           {
-            snippet: { title: `${playlistName} (imported)`, description: 'Transferred by TunePort' },
+            snippet: { title: `${safeTitle} (imported)`, description: 'Transferred by TunePort' },
             status: { privacyStatus: 'private' },
           },
           { headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' } }
