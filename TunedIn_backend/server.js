@@ -447,7 +447,13 @@ app.post('/api/transfer', async (req, res) => {
       if (err.response && err.response.data) {
         apiErrorDetail = JSON.stringify(err.response.data);
       }
-      const finalErrorMessage = apiErrorDetail ? `${err.message} - API Error: ${apiErrorDetail}` : err.message;
+      
+      let finalErrorMessage = apiErrorDetail ? `${err.message} - API Error: ${apiErrorDetail}` : err.message;
+      
+      // Specifically handle Spotify's new 403 Forbidden restriction
+      if (from === 'spotify' && err.response?.status === 403) {
+         finalErrorMessage = "Spotify API Restriction: Spotify no longer allows apps to export tracks from playlists you do not personally own (e.g. playlists you just 'Liked' or 'Saved'). Try transferring a playlist you created yourself.";
+      }
       
       console.error(`Transfer failed for playlist ${playlistId}:`, finalErrorMessage);
       result.status = 'error';
