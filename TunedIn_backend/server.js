@@ -9,6 +9,8 @@ const PORT = process.env.PORT || 3000;
 
 // ─── Middleware ───────────────────────────────────────────────────────────────
 
+app.set('trust proxy', 1);
+
 app.use(express.json());
 
 app.use(cors({
@@ -21,10 +23,10 @@ app.use(session({
   resave: false,
   saveUninitialized: false,
   cookie: {
-    secure: process.env.NODE_ENV === 'production',
+    secure: true,    
     httpOnly: true,
-    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
-    maxAge: 1000 * 60 * 60, // 1 hour
+    sameSite: 'none',  
+    maxAge: 1000 * 60 * 60 * 24, 
   },
 }));
 
