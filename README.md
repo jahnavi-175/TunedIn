@@ -41,7 +41,7 @@ To run this project locally, you will need Node.js installed on your machine.
 
 1. Clone the repository
 Bash
-git clone https://github.com/yourusername/TunedIn.git
+git clone https://github.com/jahnavi-175/TunedIn.git
 cd TunedIn/backend
 2. Install dependencies
 Bash
@@ -53,21 +53,21 @@ Code snippet
 # Spotify Credentials
 SPOTIFY_CLIENT_ID=your_spotify_client_id
 SPOTIFY_CLIENT_SECRET=your_spotify_client_secret
-SPOTIFY_REDIRECT_URI=http://localhost:3000/auth/spotify/callback
+SPOTIFY_REDIRECT_URI=https://tunedin-1bno.onrender.com/auth/spotify/callback
 
 # Google/YouTube Credentials
 GOOGLE_CLIENT_ID=your_google_client_id
 GOOGLE_CLIENT_SECRET=your_google_client_secret
-GOOGLE_REDIRECT_URI=http://localhost:3000/auth/google/callback
+GOOGLE_REDIRECT_URI=https://tunedin-1bno.onrender.com/auth/google/callback
 
 # Application Settings
 SESSION_SECRET=a_secure_random_string_here
-FRONTEND_URL=http://localhost:5500 
+FRONTEND_URL=https://tuned-in-two.vercel.app
 4. Start the Backend Server
 Bash
 node server.js
 5. Start the Frontend
-Open the frontend/index.html file using a local development server (like the VS Code "Live Server" extension). Ensure the BACKEND_URL variable in the index.html script tag is set to http://localhost:3000.
+Open the frontend/index.html file using a local development server (like the VS Code "Live Server" extension). Ensure the BACKEND_URL variable in the index.html script tag is set to https://tunedin-1bno.onrender.com.
 
 ⚠️ Important Note on API Quotas
 Currently, this application relies on unverified, development-tier API access.
