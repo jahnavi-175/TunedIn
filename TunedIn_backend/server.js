@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const axios = require('axios');
 const session = require('express-session');
+const path = require('path');
 require('dotenv').config();
 
 const app = express();
@@ -12,6 +13,9 @@ const PORT = process.env.PORT || 3000;
 app.set('trust proxy', 1);
 
 app.use(express.json());
+
+// Serve the frontend static files
+app.use(express.static(path.join(__dirname, '../TunedIn_frontend')));
 
 app.use(cors({
   origin: process.env.FRONTEND_URL,
