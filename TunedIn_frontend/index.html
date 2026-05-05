@@ -149,7 +149,7 @@
             status.innerText = "";
 
             try {
-                const response = await fetch(`${BACKEND_URL}/api/playlists?platform=${platform}`, {credentials: 'include' });
+                const response = await fetch(`${BACKEND_URL}/api/playlists/${platform}`, {credentials: 'include' });
                 const playlists = await response.json();
                 
                 container.innerHTML = "";
