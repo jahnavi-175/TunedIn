@@ -247,10 +247,12 @@ app.get('/api/playlists/spotify', async (req, res) => {
       headers: { Authorization: `Bearer ${token}` },
     });
 
-    const playlists = response.data.items.map((p) => ({
+    const playlists = (response.data.items || [])
+      .filter((p) => p !== null)
+      .map((p) => ({
       id: p.id,
-      name: p.name,
-      tracks: p.tracks.total,
+      name: p.name || 'Unknown Playlist',
+      tracks: p.tracks?.total || 0,
       image: p.images?.[0]?.url || null,
     }));
 
@@ -272,9 +274,9 @@ app.get('/api/playlists/youtube', async (req, res) => {
 
     const playlists = (response.data.items || []).map((p) => ({
       id: p.id,
-      name: p.snippet.title,
-      tracks: p.contentDetails.itemCount,
-      image: p.snippet.thumbnails?.medium?.url || null,
+      name: p.snippet?.title || 'Unknown Playlist',
+      tracks: p.contentDetails?.itemCount || 0,
+      image: p.snippet?.thumbnails?.medium?.url || null,
     }));
 
     res.json({ playlists });
