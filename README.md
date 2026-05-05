@@ -1,7 +1,7 @@
-TunedIn 🎧
+# TunedIn 🎧
 TunedIn is a full-stack web application that allows users to seamlessly transfer their music playlists between Spotify and YouTube Music. It leverages the official APIs of both platforms, utilizing secure OAuth 2.0 token exchanges and cross-origin session management to safely authenticate users and automate the migration of their music libraries.
 
-✨ Features
+## ✨ Features
 Bi-directional Transfer: Move playlists from Spotify to YouTube Music, or vice versa.
 
 Secure Authentication: Implements industry-standard OAuth 2.0 flows for both Google and Spotify. User credentials are never seen or stored.
@@ -12,7 +12,7 @@ Asynchronous Processing: Handles rate-limiting and bulk data fetching gracefully
 
 Glassmorphic UI: A clean, responsive, and aesthetic dark-themed dashboard using modern CSS.
 
-🛠️ Tech Stack
+## 🛠️ Tech Stack
 Frontend: HTML5, CSS3, Vanilla JavaScript
 
 Backend: Node.js, Express.js
@@ -25,7 +25,7 @@ APIs: Spotify Web API, YouTube Data API v3
 
 Deployment: Render (Backend), Vercel (Frontend)
 
-🚀 How It Works
+## 🚀 How It Works
 Authentication: The user clicks a connect button and is securely redirected to the provider's authorization page (Spotify/Google).
 
 Token Exchange: Once approved, the provider redirects back to the TunedIn backend with an authorization code. The backend exchanges this code for access and refresh tokens.
@@ -36,7 +36,7 @@ Data Fetching: The frontend requests the user's playlists from the backend, whic
 
 Transfer Logic: When a transfer is initiated, the backend reads the tracks from the source playlist, creates a new private playlist on the destination platform, and systematically searches for and adds each track.
 
-💻 Local Development Setup
+## 💻 Local Development Setup
 To run this project locally, you will need Node.js installed on your machine.
 
 1. Clone the repository
@@ -49,18 +49,18 @@ npm install
 3. Environment Variables
 Create a .env file in the backend directory and add the following keys. You will need to obtain these by creating developer applications on the Spotify Developer Dashboard and Google Cloud Console.
 
-Code snippet
-# Spotify Credentials
+# Code snippet
+## Spotify Credentials
 SPOTIFY_CLIENT_ID=your_spotify_client_id
 SPOTIFY_CLIENT_SECRET=your_spotify_client_secret
 SPOTIFY_REDIRECT_URI=https://tunedin-1bno.onrender.com/auth/spotify/callback
 
-# Google/YouTube Credentials
+## Google/YouTube Credentials
 GOOGLE_CLIENT_ID=your_google_client_id
 GOOGLE_CLIENT_SECRET=your_google_client_secret
 GOOGLE_REDIRECT_URI=https://tunedin-1bno.onrender.com/auth/google/callback
 
-# Application Settings
+## Application Settings
 SESSION_SECRET=a_secure_random_string_here
 FRONTEND_URL=https://tuned-in-two.vercel.app
 4. Start the Backend Server
