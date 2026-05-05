@@ -443,9 +443,17 @@ app.post('/api/transfer', async (req, res) => {
 
       result.status = 'done';
     } catch (err) {
-      console.error(`Transfer failed for playlist ${playlistId}:`, err.message);
+      let apiErrorDetail = '';
+      if (err.response && err.response.data) {
+        // Try to parse standard Google/Spotify error format
+        const errorData = err.response.data;
+        apiErrorDetail = errorData.error?.message || JSON.stringify(errorData);
+      }
+      const finalErrorMessage = apiErrorDetail ? `${err.message} - API Error: ${apiErrorDetail}` : err.message;
+      
+      console.error(`Transfer failed for playlist ${playlistId}:`, finalErrorMessage);
       result.status = 'error';
-      result.error = err.message;
+      result.error = finalErrorMessage;
     }
 
     results.push(result);
