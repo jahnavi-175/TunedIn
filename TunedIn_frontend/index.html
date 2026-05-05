@@ -202,18 +202,29 @@
                     credentials: 'include',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        sourcePlatform: source,
-                        targetPlatform: target,
-                        playlistId: selectedPlaylistId
+                        from: source,
+                        to: target,
+                        playlistIds: [selectedPlaylistId]
                     })
                 });
                 
                 const result = await response.json();
+                
+                if (!response.ok) {
+                    throw new Error(result.error || "Transfer request failed");
+                }
+
+                const transferResult = result.results && result.results[0];
+                if (transferResult && transferResult.status === 'error') {
+                    throw new Error(transferResult.error || "Failed to transfer tracks");
+                }
+
+                const count = transferResult ? transferResult.tracksTransferred : 0;
                 status.style.color = "#34d399";
-                status.innerText = "✅ Transfer Complete! Check your app.";
+                status.innerText = `✅ Transfer Complete! Added ${count} tracks.`;
             } catch (err) {
                 status.style.color = "#f87171";
-                status.innerText = "❌ Transfer failed. Check console for details.";
+                status.innerText = `❌ Transfer failed: ${err.message}`;
                 console.error(err);
             }
         }
