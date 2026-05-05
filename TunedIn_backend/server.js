@@ -49,6 +49,8 @@ app.get('/', (req, res) => res.json({ status: 'TunePort backend running' }));
 // 1. Redirect user to Spotify login page
 app.get('/auth/spotify', (req, res) => {
   const scopes = [
+    'user-read-private',
+    'user-read-email',
     'playlist-read-private',
     'playlist-read-collaborative',
     'playlist-modify-public',
